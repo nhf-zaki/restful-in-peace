@@ -1,23 +1,14 @@
 package nhfzaki.restfulinpeace.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author nhf-zaki on 12/18/18
  */
 @Entity
 @Table(name = "patients")
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class Patient implements Serializable {
 
     @Id
@@ -28,8 +19,7 @@ public class Patient implements Serializable {
     private String name;
 
     @NotBlank
-    @Pattern(regexp = "^(880|0){0,1}1(3|5|6|7|8|9)[0-9]{8}$")
-    private long mobile;
+    private String mobile;
 
     @NotBlank
     private int age;
@@ -40,16 +30,6 @@ public class Patient implements Serializable {
     private String occupation;
 
     private String symptom_summary;
-
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
 
     public Long getId() {
         return id;
@@ -67,11 +47,11 @@ public class Patient implements Serializable {
         this.name = name;
     }
 
-    public long getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(long mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -105,21 +85,5 @@ public class Patient implements Serializable {
 
     public void setSymptom_summary(String symptom_summary) {
         this.symptom_summary = symptom_summary;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

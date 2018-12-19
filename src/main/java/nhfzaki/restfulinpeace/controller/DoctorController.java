@@ -26,22 +26,22 @@ public class DoctorController {
         return doctorRepository.findAll();
     }
 
-    // Get a doctor by id
-    @GetMapping("/doctors/{id}")
-    public Doctor getDoctorById(@PathVariable(value = "id") Long doctor_id) {
-        return doctorRepository.findById(doctor_id).orElseThrow(
-                () -> new ResourceNotFoundException("Doctor", "id", doctor_id));
-    }
-
     // Insert a doctor
     @PostMapping("/insert/doctor/new")
     public Doctor createDoctor(@Valid @RequestBody Doctor doctor) {
         return doctorRepository.save(doctor);
     }
 
+    // Get a doctor by id
+    @RequestMapping(method = RequestMethod.GET, value = "/doctors", headers = "doctor_id")
+    public Doctor getDoctorById(@RequestHeader Long doctor_id) {
+        return doctorRepository.findById(doctor_id).orElseThrow(
+                () -> new ResourceNotFoundException("Doctor", "id", doctor_id));
+    }
+
     // Update a doctor by id
-    @PutMapping("/update/doctors/{id}")
-    public Doctor updateDoctor(@PathVariable(value = "id") Long doctor_id, @Valid @RequestBody Doctor doctorDetails) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/doctors", headers = "doctor_id")
+    public Doctor updateDoctor(@RequestHeader Long doctor_id, @Valid @RequestBody Doctor doctorDetails) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow(
                 () -> new ResourceNotFoundException("Doctor", "id", doctor_id));
 
@@ -53,8 +53,8 @@ public class DoctorController {
     }
 
     // Delete a doctor by id
-    @DeleteMapping("/delete/doctors/{id}")
-    public ResponseEntity<?> deleteDoctor(@PathVariable(value = "id") Long doctor_id) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/doctors", headers = "doctor_id")
+    public ResponseEntity<?> deleteDoctor(@RequestHeader Long doctor_id) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow(
                 () -> new ResourceNotFoundException("Doctor", "id", doctor_id));
 

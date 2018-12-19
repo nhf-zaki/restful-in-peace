@@ -26,22 +26,22 @@ public class PatientController {
         return patientRepository.findAll();
     }
 
-    // Get a patient by id
-    @GetMapping("/patients/{id}")
-    public Patient getPatientById(@PathVariable(value = "id") Long patient_id) {
-        return patientRepository.findById(patient_id).orElseThrow(
-                () -> new ResourceNotFoundException("Patient", "id", patient_id));
-    }
-
     // Insert a patient
     @PostMapping("/insert/patient/new")
     public Patient createPatient(@Valid @RequestBody Patient patient) {
         return patientRepository.save(patient);
     }
 
+    // Get a patient by id
+    @RequestMapping(method = RequestMethod.GET, value = "/patients", headers = "patient_id")
+    public Patient getPatientById(@RequestHeader Long patient_id) {
+        return patientRepository.findById(patient_id).orElseThrow(
+                () -> new ResourceNotFoundException("Patient", "id", patient_id));
+    }
+
     // Update a patient by id
-    @PutMapping("/update/patients/{id}")
-    public Patient updatePatient(@PathVariable(value = "id") Long patient_id, @Valid @RequestBody Patient patientDetails) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/patients", headers = "patient_id")
+    public Patient updatePatient(@RequestHeader Long patient_id, @Valid @RequestBody Patient patientDetails) {
         Patient patient = patientRepository.findById(patient_id).orElseThrow(
                 () -> new ResourceNotFoundException("Patient", "id", patient_id));
 
@@ -56,8 +56,8 @@ public class PatientController {
     }
 
     // Delete a patient by id
-    @DeleteMapping("/delete/patients/{id}")
-    public ResponseEntity<?> deletePatient(@PathVariable(value = "id") Long patient_id) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/patients", headers = "patient_id")
+    public ResponseEntity<?> deletePatient(@RequestHeader Long patient_id) {
         Patient patient = patientRepository.findById(patient_id).orElseThrow(
                 () -> new ResourceNotFoundException("Patient", "id", patient_id));
 
