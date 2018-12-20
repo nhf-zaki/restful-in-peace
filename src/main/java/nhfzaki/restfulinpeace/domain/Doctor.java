@@ -1,7 +1,10 @@
 package nhfzaki.restfulinpeace.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,8 +25,9 @@ public class Doctor implements Serializable {
     @NotBlank
     private String dept;
 
-    @NotBlank
+    @NotNull
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date joining;
 
     public Long getId() {

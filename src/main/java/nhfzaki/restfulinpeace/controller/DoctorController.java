@@ -3,7 +3,7 @@ package nhfzaki.restfulinpeace.controller;
 import nhfzaki.restfulinpeace.domain.Doctor;
 import nhfzaki.restfulinpeace.exception.ResourceNotFoundException;
 import nhfzaki.restfulinpeace.repository.DoctorRepository;
-import nhfzaki.restfulinpeace.web.rest.CustomResponse;
+import nhfzaki.restfulinpeace.web.rest.DataModificationResponse;
 import nhfzaki.restfulinpeace.web.rest.StatusTypeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class DoctorController {
     public ResponseEntity<?> createDoctor(@Valid @RequestBody Doctor doctor) {
         doctorRepository.save(doctor);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_SUCCESS), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_SUCCESS), HttpStatus.OK);
     }
 
     // Get a doctor by id
@@ -59,7 +59,7 @@ public class DoctorController {
 
         doctorRepository.save(doctor);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_UPDATED), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_UPDATED), HttpStatus.OK);
     }
 
     // Delete a doctor by id
@@ -71,6 +71,6 @@ public class DoctorController {
 
         doctorRepository.delete(doctor);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_DELETED), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_DELETED), HttpStatus.OK);
     }
 }

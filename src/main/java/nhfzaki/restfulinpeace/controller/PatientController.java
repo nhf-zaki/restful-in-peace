@@ -3,7 +3,7 @@ package nhfzaki.restfulinpeace.controller;
 import nhfzaki.restfulinpeace.domain.Patient;
 import nhfzaki.restfulinpeace.exception.ResourceNotFoundException;
 import nhfzaki.restfulinpeace.repository.PatientRepository;
-import nhfzaki.restfulinpeace.web.rest.CustomResponse;
+import nhfzaki.restfulinpeace.web.rest.DataModificationResponse;
 import nhfzaki.restfulinpeace.web.rest.StatusTypeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class PatientController {
     public ResponseEntity<?> createPatient(@Valid @RequestBody Patient patient) {
         patientRepository.save(patient);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_SUCCESS), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_SUCCESS), HttpStatus.OK);
     }
 
     // Get a patient by id
@@ -62,7 +62,7 @@ public class PatientController {
 
         patientRepository.save(patient);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_UPDATED), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_UPDATED), HttpStatus.OK);
     }
 
     // Delete a patient by id
@@ -74,7 +74,7 @@ public class PatientController {
 
         patientRepository.delete(patient);
 
-        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_DELETED), HttpStatus.OK);
+        return new ResponseEntity<>(new DataModificationResponse(StatusTypeConstants.STATUS_DELETED), HttpStatus.OK);
     }
 
 }

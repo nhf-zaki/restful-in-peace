@@ -2,6 +2,7 @@ package nhfzaki.restfulinpeace.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -21,8 +22,8 @@ public class Patient implements Serializable {
     @NotBlank
     private String mobile;
 
-    @NotBlank
-    private int age;
+    @NotNull
+    private Integer age;
 
     @NotBlank
     private String gender;
@@ -55,11 +56,11 @@ public class Patient implements Serializable {
         this.mobile = mobile;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
