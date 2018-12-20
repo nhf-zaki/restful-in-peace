@@ -8,6 +8,10 @@ public class CustomResponse {
     private String status;
     private String message;
 
+    public CustomResponse(String status) {
+        this.status = status;
+    }
+
     public CustomResponse(String status, String message) {
         this.status = status;
         this.message = message;

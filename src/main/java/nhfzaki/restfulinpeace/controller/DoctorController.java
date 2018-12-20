@@ -3,8 +3,12 @@ package nhfzaki.restfulinpeace.controller;
 import nhfzaki.restfulinpeace.domain.Doctor;
 import nhfzaki.restfulinpeace.exception.ResourceNotFoundException;
 import nhfzaki.restfulinpeace.repository.DoctorRepository;
+import nhfzaki.restfulinpeace.web.rest.CustomResponse;
+import nhfzaki.restfulinpeace.web.rest.StatusTypeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,9 +31,12 @@ public class DoctorController {
     }
 
     // Insert a doctor
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/insert/doctor/new")
-    public Doctor createDoctor(@Valid @RequestBody Doctor doctor) {
-        return doctorRepository.save(doctor);
+    public ResponseEntity<?> createDoctor(@Valid @RequestBody Doctor doctor) {
+        doctorRepository.save(doctor);
+
+        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_SUCCESS), HttpStatus.OK);
     }
 
     // Get a doctor by id
@@ -40,8 +47,9 @@ public class DoctorController {
     }
 
     // Update a doctor by id
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.PUT, value = "/update/doctors", headers = "doctor_id")
-    public Doctor updateDoctor(@RequestHeader Long doctor_id, @Valid @RequestBody Doctor doctorDetails) {
+    public ResponseEntity<?> updateDoctor(@RequestHeader Long doctor_id, @Valid @RequestBody Doctor doctorDetails) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow(
                 () -> new ResourceNotFoundException("Doctor", "id", doctor_id));
 
@@ -49,10 +57,13 @@ public class DoctorController {
         doctor.setDept(doctorDetails.getDept());
         doctor.setJoining(doctorDetails.getJoining());
 
-        return doctorRepository.save(doctor);
+        doctorRepository.save(doctor);
+
+        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_UPDATED), HttpStatus.OK);
     }
 
     // Delete a doctor by id
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/doctors", headers = "doctor_id")
     public ResponseEntity<?> deleteDoctor(@RequestHeader Long doctor_id) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow(
@@ -60,6 +71,6 @@ public class DoctorController {
 
         doctorRepository.delete(doctor);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new CustomResponse(StatusTypeConstants.STATUS_DELETED), HttpStatus.OK);
     }
 }
